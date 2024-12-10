@@ -4,6 +4,7 @@ const GoogleSearchAPI = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [url, setUrl] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const apiKey = "AIzaSyB_D81mKhzdO-60ZQsfaTsWKUC9tGQtVEM";
   const cx = "256b9e88c1b534fa2";
@@ -17,9 +18,21 @@ const GoogleSearchAPI = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setResults(data.items || []);
+
+      if (data.error) {
+        if (data.error.code === 403) {
+          setErrorMessage("API key has expired or the number of requests has been exhausted.");
+        } else {
+          setErrorMessage("An error occurred while fetching search results.");
+        }
+        setResults([]);
+      } else {
+        setResults(data.items || []);
+        setErrorMessage("");
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
+      setErrorMessage("An error occurred while fetching search results.");
     }
   };
 
@@ -31,8 +44,8 @@ const GoogleSearchAPI = () => {
 
   const handleResultClick = (link) => {
     setUrl(link);
-    setSearchTerm(""); 
-    setResults([]); 
+    setSearchTerm("");
+    setResults([]);
   };
 
   return (
@@ -42,10 +55,13 @@ const GoogleSearchAPI = () => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={handleKeyDown} 
+        onKeyDown={handleKeyDown}
         placeholder="Search for something"
         style={styles.input}
       />
+
+      {/* Display error message */}
+      {errorMessage && <p style={styles.error}>{errorMessage}</p>}
 
       {/* Display search results */}
       <div style={styles.resultsContainer}>
@@ -117,6 +133,10 @@ const styles = {
     height: "400px",
     border: "none",
     marginTop: "20px",
+  },
+  error: {
+    color: "red",
+    marginBottom: "15px",
   },
 };
 
