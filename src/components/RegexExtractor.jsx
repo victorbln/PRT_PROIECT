@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { patterns } from "../utils/regexPatterns";
 import { exportToCsv } from "../utils/csvExporter";
 
@@ -7,6 +7,7 @@ const RegexExtractor = () => {
   const [selectedPattern, setSelectedPattern] = useState("emails");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
+  const [url, setUrl] = useState(""); // State pentru URL
 
   const handleExtract = () => {
     try {
@@ -18,7 +19,7 @@ const RegexExtractor = () => {
       const regex = patterns[selectedPattern];
       const matches = inputText.match(regex) || [];
       setResults(matches);
-      setError(""); // Clear any previous errors
+      setError(""); 
     } catch (err) {
       console.error("Extraction error:", err);
       setError("An unexpected error occurred during extraction.");
@@ -31,13 +32,35 @@ const RegexExtractor = () => {
       return;
     }
     exportToCsv("results.csv", results);
-    setError(""); // Clear any previous errors
+    setError(""); 
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Regex Extractor</h1>
       <div style={styles.flexContainer}>
+        {/* Iframe for URL input */}
+        <div style={styles.textContainer}>
+          <h3 style={styles.subHeader}>Load a Web Page</h3>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter a URL"
+            style={styles.input}
+          />
+
+          {/* Check if URL is valid and load iframe */}
+          {url && (
+            <iframe
+              id="iframe"
+              src={url}
+              title="Embedded Web Page"
+              style={styles.iframe}
+            />
+          )}
+        </div>
+
         {/* Input Field */}
         <div style={styles.textContainer}>
           <h3 style={styles.subHeader}>Input Text</h3>
@@ -111,7 +134,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: "5vw",
-    height: "80vh", // Leaves some space for header and padding
+    height: "80vh", 
   },
   textContainer: {
     flex: 1,
@@ -126,7 +149,7 @@ const styles = {
   },
   textArea: {
     width: "100%",
-    height: "70%",
+    height: "70%", // Occupy the available space
     padding: "10px",
     fontSize: "16px",
     border: "1px solid #ccc",
@@ -170,6 +193,22 @@ const styles = {
     color: "red",
     marginTop: "2vh",
     textAlign: "center",
+  },
+  input: {
+    padding: "10px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    width: "100%",
+    marginBottom: "20px",
+  },
+  iframe: {
+    width: "100%",
+    height: "70%",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    boxSizing: "border-box",
+    marginTop: "2vh", 
   },
 };
 
