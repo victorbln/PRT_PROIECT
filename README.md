@@ -28,8 +28,9 @@ Aplicația permite extragerea informațiilor utile din text folosind expresii re
 ### Instalare
 1. Clonați repository-ul:
     ```bash
-    git clone https://github.com/utilizator/repository.git
+    git clone https://github.com/victorbln/PRT_PROIECT.git
     ```
+    sau descărcați și extrageți arhiva ZIP.
 2. Navigați în directorul proiectului:
     ```bash
     cd repository
