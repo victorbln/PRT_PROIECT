@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        border: 1px solid #ddd;
+        overflow-x: auto;
+      }
+      code {
+        font-family: "Courier New", Courier, monospace;
+        background: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>React + Vite</h1>
+    <p>
+      Acest șablon oferă o configurare minimă pentru a face React să funcționeze
+      în Vite cu HMR și câteva reguli ESLint.
+    </p>
+    <p>În prezent, sunt disponibile două pluginuri oficiale:</p>
+    <ul>
+      <li>
+        <a
+          href="https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md"
+          >@vitejs/plugin-react</a
+        >
+        folosește <a href="https://babeljs.io/">Babel</a> pentru Fast Refresh
+      </li>
+      <li>
+        <a href="https://github.com/vitejs/vite-plugin-react-swc"
+          >@vitejs/plugin-react-swc</a
+        >
+        folosește <a href="https://swc.rs/">SWC</a> pentru Fast Refresh
+      </li>
+    </ul>
+
+    <h2>Extractor Regex</h2>
+
+    <h3>Descriere</h3>
+    <p>
+      Aplicația permite extragerea informațiilor utile din text folosind
+      expresii regulate. Aceasta este capabilă să identifice și să extragă
+      diverse tipuri de date, cum ar fi adrese de e-mail, URL-uri, numere de
+      telefon, date și taguri HTML. Utilizând această aplicație, utilizatorii
+      pot analiza rapid și eficient texte pentru a găsi și a izola informațiile
+      de interes.
+    </p>
+
+    <h3>Funcționalități</h3>
+    <ul>
+      <li>
+        <strong>Extragerea adreselor de e-mail:</strong> Aplicația poate găsi și
+        extrage toate adresele de e-mail valide dintr-un text.
+      </li>
+      <li>
+        <strong>Identificarea URL-urilor:</strong> Este capabilă să detecteze și
+        să extragă toate URL-urile prezente într-un text.
+      </li>
+      <li>
+        <strong>Detectarea numerelor de telefon:</strong> Poate identifica și
+        extrage numerele de telefon formate din 10 până la 15 cifre.
+      </li>
+      <li>
+        <strong>Recunoașterea datelor:</strong> Aplicația poate găsi datele în
+        formatul „zz/ll/aaaa” și le poate extrage.
+      </li>
+      <li>
+        <strong>Extragerea tagurilor HTML:</strong> Este capabilă să identifice
+        și să extragă tagurile HTML dintr-un text.
+      </li>
+    </ul>
+
+    <h2>Explicația expresiilor regulate</h2>
+
+    <h3>Emails</h3>
+    <pre><code>/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g</code></pre>
+    <p>
+      <strong>Descriere:</strong> Această expresie regulată caută adrese de
+      e-mail.
+    </p>
+    <p><strong>Componente:</strong></p>
+    <ul>
+      <li>
+        <code>\b</code>: Asigură că începe și se termină la un cuvânt (evită să
+        captureze fragmente de text care conțin adrese de e-mail).
+      </li>
+      <li>
+        <code>[A-Za-z0-9._%+-]+</code>: Căutăm caractere care pot apărea într-o
+        adresă de e-mail (litere mari și mici, cifre, puncte, liniuțe, procent,
+        semne plus și minus).
+      </li>
+      <li>
+        <code>@</code>: Simbolul „@” care separă numele utilizatorului de
+        domeniu.
+      </li>
+      <li>
+        <code>[A-Za-z0-9.-]+</code>: Permite numele domeniului să conțină
+        litere, cifre, puncte și liniuțe.
+      </li>
+      <li><code>\.</code>: Caracterul punct (în domeniul de top, ex: .com).</li>
+      <li>
+        <code>[A-Z|a-z]{2,}</code>: Permite domeniile de top să aibă cel puțin
+        două litere, de exemplu .com, .ro, etc.
+      </li>
+      <li><code>\b</code>: Asigură că se termină la un cuvânt.</li>
+      <li><code>g</code>: Căutare globală, pentru a găsi toate instanțele.</li>
+    </ul>
+
+    <h3>URLs</h3>
+    <pre><code>/https?:\/\/[^\s&lt;&gt;]+(?:\.[^\s&lt;&gt;]+)+(?:\/[^\s&lt;&gt;]*)?/g</code></pre>
+    <p><strong>Descriere:</strong> Această expresie regulată caută URL-uri.</p>
+    <p><strong>Componente:</strong></p>
+    <ul>
+      <li><code>https?</code>: Căutăm „http” sau „https” (cu sau fără „s”).</li>
+      <li>
+        <code>:\/\/</code>: Urmează „://” care este parte din sintaxa unui URL.
+      </li>
+      <li>
+        <code>[^\s&lt;&gt;]+</code>: Permite orice caractere care nu sunt
+        spații, semne de mai puțin decât sau mai mare decât (&lt; sau &gt;),
+        acestea fiind caractere interzise într-un URL.
+      </li>
+      <li>
+        <code>(?:\.[^\s&lt;&gt;]+)+</code>: Permite domeniul URL-ului să conțină
+        mai multe segmente (de exemplu, .com, .co.uk).
+      </li>
+      <li>
+        <code>(?:\/[^\s&lt;&gt;]*)?</code>: Permite o cale URL, care poate
+        conține caractere care nu sunt spații sau semne de mai puțin decât sau
+        mai mare decât.
+      </li>
+      <li><code>g</code>: Căutare globală.</li>
+    </ul>
+
+    <h3>Phone Numbers</h3>
+    <pre><code>/\b\d{10,15}\b/g</code></pre>
+    <p>
+      <strong>Descriere:</strong> Această expresie regulată caută numere de
+      telefon formate din 10 până la 15 caractere numerice.
+    </p>
+    <p><strong>Componente:</strong></p>
+    <ul>
+      <li><code>\b</code>: Căutăm la începutul și sfârșitul unui cuvânt.</li>
+      <li>
+        <code>\d{10,15}</code>: Căutăm un șir de 10 până la 15 cifre (0-9).
+      </li>
+      <li><code>\b</code>: Se asigură că se termină la un cuvânt.</li>
+      <li><code>g</code>: Căutare globală.</li>
+    </ul>
+
+    <h3>Dates</h3>
+    <pre><code>/\b\d{2}\/\d{2}\/\d{4}\b/g</code></pre>
+    <p>
+      <strong>Descriere:</strong> Căutăm datele în formatul „zz/ll/aaaa” (de
+      exemplu, 12/12/2024).
+    </p>
+    <p><strong>Componente:</strong></p>
+    <ul>
+      <li><code>\b</code>: Căutăm la începutul și sfârșitul unui cuvânt.</li>
+      <li><code>\d{2}</code>: Căutăm exact 2 cifre (pentru zi și lună).</li>
+      <li><code>\/</code>: Caracterul „/” care separă ziua, luna și anul.</li>
+      <li><code>\d{4}</code>: Căutăm exact 4 cifre pentru anul.</li>
+      <li><code>\b</code>: Asigură că se termină la un cuvânt.</li>
+      <li><code>g</code>: Căutare globală.</li>
+    </ul>
+
+    <h3>HTML Tags</h3>
+    <pre><code>/&lt;([a-z][a-z0-9]*)\b[^&gt;]*&gt;/gi</code></pre>
+    <p><strong>Descriere:</strong> Căutăm taguri HTML.</p>
+    <p><strong>Componente:</strong></p>
+    <ul>
+      <li>
+        <code>&amp;lt;</code>: Începe cu semnul „&lt;”, care marchează începutul
+        unui tag HTML.
+      </li>
+      <li>
+        <code>([a-z][a-z0-9]*)</code>: Permite identificarea numelui unui tag
+        HTML. Numele tagului trebuie să înceapă cu o literă mică, urmată de
+        litere mici și/sau cifre.
+      </li>
+      <li>
+        <code>\b</code>: Asigură că numele tagului se termină la un cuvânt.
+      </li>
+      <li>
+        <code>[^&gt;]*</code>: Permite orice caracter, cu excepția „&gt;”, care
+        poate apărea în interiorul tagului (de exemplu, atributele tagului).
+      </li>
+      <li><code>&amp;gt;</code>: Se încheie cu semnul „&gt;”.</li>
+      <li><code>g</code>: Căutare globală (pentru toate instanțele).</li>
+      <li>
+        <code>i</code>: Căutare insensibilă la litere mari și mici (pentru a
+        prinde și tagurile cu litere mari).
+      </li>
+    </ul>
+  </body>
+</html>

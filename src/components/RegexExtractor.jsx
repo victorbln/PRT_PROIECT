@@ -8,7 +8,7 @@ const RegexExtractor = () => {
   const [selectedPattern, setSelectedPattern] = useState("emails");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
-  const [url, setUrl] = useState(""); 
+  const [url, setUrl] = useState("");
 
   const handleExtract = () => {
     try {
@@ -39,6 +39,12 @@ const RegexExtractor = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Regex Extractor</h1>
+      <p
+        style={{ textAlign: "center", color: "lightblue", cursor: "pointer" }}
+        onClick={() => (window.location.href = "docs.html")}
+      >
+        Project Documentation
+      </p>
       <h2 style={styles.subHeader}>
         To use the app enter an URL or use the search bar for google search
         results
@@ -160,7 +166,7 @@ const styles = {
   },
   textArea: {
     width: "100%",
-    height: "70%", 
+    height: "70%",
     padding: "10px",
     fontSize: "16px",
     border: "1px solid #ccc",
