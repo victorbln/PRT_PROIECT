@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { patterns } from "../utils/regexPatterns";
 import { exportToCsv } from "../utils/csvExporter";
+import GoogleSearchAPI from "./GoogleSearch";
 
 const RegexExtractor = () => {
   const [inputText, setInputText] = useState("");
   const [selectedPattern, setSelectedPattern] = useState("emails");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
-  const [url, setUrl] = useState(""); // State pentru URL
+  const [url, setUrl] = useState(""); 
 
   const handleExtract = () => {
     try {
@@ -19,7 +20,7 @@ const RegexExtractor = () => {
       const regex = patterns[selectedPattern];
       const matches = inputText.match(regex) || [];
       setResults(matches);
-      setError(""); 
+      setError("");
     } catch (err) {
       console.error("Extraction error:", err);
       setError("An unexpected error occurred during extraction.");
@@ -32,12 +33,22 @@ const RegexExtractor = () => {
       return;
     }
     exportToCsv("results.csv", results);
-    setError(""); 
+    setError("");
   };
 
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Regex Extractor</h1>
+      <h2 style={styles.subHeader}>
+        To use the app enter an URL or use the search bar for google search
+        results
+        <br></br>
+        Then after the web page Loads you can extract the data you need from the
+        text area by right clicking and
+        <br></br>
+        inspecting the html elements and copying the text you need from the HTML
+        elements and pasting it in the text area.
+      </h2>
       <div style={styles.flexContainer}>
         {/* Iframe for URL input */}
         <div style={styles.textContainer}>
@@ -49,6 +60,7 @@ const RegexExtractor = () => {
             placeholder="Enter a URL"
             style={styles.input}
           />
+          <GoogleSearchAPI />
 
           {/* Check if URL is valid and load iframe */}
           {url && (
@@ -115,7 +127,6 @@ const RegexExtractor = () => {
     </div>
   );
 };
-
 const styles = {
   container: {
     width: "100vw",
@@ -134,7 +145,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: "5vw",
-    height: "80vh", 
+    height: "80vh",
   },
   textContainer: {
     flex: 1,
@@ -149,7 +160,7 @@ const styles = {
   },
   textArea: {
     width: "100%",
-    height: "70%", // Occupy the available space
+    height: "70%", 
     padding: "10px",
     fontSize: "16px",
     border: "1px solid #ccc",
@@ -205,10 +216,10 @@ const styles = {
   iframe: {
     width: "100%",
     height: "70%",
-    border: "1px solid #ccc",
+    border: "5px solid green",
     borderRadius: "5px",
     boxSizing: "border-box",
-    marginTop: "2vh", 
+    marginTop: "2vh",
   },
 };
 
