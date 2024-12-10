@@ -60,80 +60,80 @@ Aplicația permite extragerea informațiilor utile din text folosind expresii re
 ### Emails
 
 ```javascript
-/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g
+/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}(?<!")\b/g
 ```
 
 **Descriere:** Această expresie regulată caută adrese de e-mail.
 
 **Componente:**
-- `\b`: Asigură că începe și se termină la un cuvânt (evită să captureze fragmente de text care conțin adrese de e-mail).
-- `[A-Za-z0-9._%+-]+`: Căutăm caractere care pot apărea într-o adresă de e-mail (litere mari și mici, cifre, puncte, liniuțe, procent, semne plus și minus).
-- `@`: Simbolul „@” care separă numele utilizatorului de domeniu.
-- `[A-Za-z0-9.-]+`: Permite numele domeniului să conțină litere, cifre, puncte și liniuțe.
-- `\.`: Caracterul punct (în domeniul de top, ex: .com).
-- `[A-Z|a-z]{2,}`: Permite domeniile de top să aibă cel puțin două litere, de exemplu .com, .ro, etc.
-- `\b`: Asigură că se termină la un cuvânt.
-- `g`: Căutare globală, pentru a găsi toate instanțele.
+- `\b`: Căutăm la începutul și sfârșitul unui cuvânt.
+- `[A-Za-z0-9._%+-]+`: Căutăm orice combinație de litere, cifre și caractere speciale „._%+-”.
+- `@`: Căutăm caracterul „@”.
+- `[A-Za-z0-9.-]+`: Căutăm orice combinație de litere, cifre și caractere speciale „.-”.
+- `\.`: Căutăm caracterul „.”.
+- `[A-Z|a-z]{2,}`: Căutăm două sau mai multe litere mari sau mici.
+- `\b`: Se asigură că se termină la un cuvânt.
+- `g`: Căutare globală.
 
 ### URLs
 
 ```javascript
-/https?:\/\/[^\s<>]+(?:\.[^\s<>]+)+(?:\/[^\s<>]*)?/g
+/https?:\/\/[^\s<>"]+(?:\.[^\s<>"]+)+(?:\/[^\s<>"]*)?(?<!")/g
 ```
 
 **Descriere:** Această expresie regulată caută URL-uri.
 
 **Componente:**
-- `https?`: Căutăm „http” sau „https” (cu sau fără „s”).
-- `:\/\/`: Urmează „://” care este parte din sintaxa unui URL.
-- `[^\s<>]+`: Permite orice caractere care nu sunt spații, semne de mai puțin decât sau mai mare decât (< sau >), acestea fiind caractere interzise într-un URL.
-- `(?:\.[^\s<>]+)+`: Permite domeniul URL-ului să conțină mai multe segmente (de exemplu, .com, .co.uk).
-- `(?:\/[^\s<>]*)?`: Permite o cale URL, care poate conține caractere care nu sunt spații sau semne de mai puțin decât sau mai mare decât.
+- `https?`: Protocolul „http” sau „https”.
+- `:\/\/`: Secvența „://”.
+- `[^\s<>"]+`: Căutăm orice caracter care nu este spațiu, „<” sau „"”.
+- `(?:\.[^\s<>"]+)+`: Căutăm un punct urmat de orice caracter care nu este spațiu, „<” sau „"”, repetat de una sau mai multe ori.
+- `(?:\/[^\s<>"]*)?`: Căutăm un „/” urmat de orice caracter care nu este spațiu, „<” sau „"”, zero sau mai multe ori, opțional.
+- `(?<!")`: Asigură că nu se extrag ghilimele.
 - `g`: Căutare globală.
 
 ### Phone Numbers
 
 ```javascript
-/\b\d{10,15}\b/g
+/\b\d{10,15}(?<!")\b/g
 ```
 
 **Descriere:** Această expresie regulată caută numere de telefon formate din 10 până la 15 caractere numerice.
 
 **Componente:**
 - `\b`: Căutăm la începutul și sfârșitul unui cuvânt.
-- `\d{10,15}`: Căutăm un șir de 10 până la 15 cifre (0-9).
+- `\d{10,15}`: Căutăm un șir de 10 până la 15 cifre.
 - `\b`: Se asigură că se termină la un cuvânt.
+- `g`: Căutare globală.
+- `(?<!")`: Asigură că nu se termină cu un ghilimele.
 - `g`: Căutare globală.
 
 ### Dates
 
 ```javascript
-/\b\d{2}\/\d{2}\/\d{4}\b/g
+/\b\d{2}\/\d{2}\/\d{4}(?<!")\b/g
 ```
 
-**Descriere:** Căutăm datele în formatul „zz/ll/aaaa” (de exemplu, 12/12/2024).
+**Descriere:** Căutăm datele în formatul „zz/ll/aaaa”.
 
 **Componente:**
 - `\b`: Căutăm la începutul și sfârșitul unui cuvânt.
-- `\d{2}`: Căutăm exact 2 cifre (pentru zi și lună).
-- `\/`: Caracterul „/” care separă ziua, luna și anul.
-- `\d{4}`: Căutăm exact 4 cifre pentru anul.
-- `\b`: Asigură că se termină la un cuvânt.
+- `\d{2}\/\d{2}\/\d{4}`: Căutăm un șir de 2 cifre, urmat de „/”, apoi de un alt șir de 2 cifre, „/” și un șir de 4 cifre.
+- `\b`: Se asigură că se termină la un cuvânt.
 - `g`: Căutare globală.
 
 ### HTML Tags
 
 ```javascript
-/<([a-z][a-z0-9]*)\b[^>]*>/gi
+/<\/?([a-z][a-z0-9]*).*?>(?<!")/gi
 ```
 
 **Descriere:** Căutăm taguri HTML.
 
 **Componente:**
-- `<`: Începe cu semnul „<”, care marchează începutul unui tag HTML.
-- `([a-z][a-z0-9]*)`: Permite identificarea numelui unui tag HTML. Numele tagului trebuie să înceapă cu o literă mică, urmată de litere mici și/sau cifre.
-- `\b`: Asigură că numele tagului se termină la un cuvânt.
-- `[^>]*`: Permite orice caracter, cu excepția „>”, care poate apărea în interiorul tagului (de exemplu, atributele tagului).
-- `>`: Se încheie cu semnul „>”.
-- `g`: Căutare globală (pentru toate instanțele).
-- `i`: Căutare insensibilă la litere mari și mici (pentru a prinde și tagurile cu litere mari).
+- `<\/?`: Căutăm un caracter „<” urmat de un caracter opțional „/”.
+- `([a-z][a-z0-9]*)`: Căutăm un caracter literă urmat de orice combinație de litere și cifre.
+- `.*?`: Căutăm orice caracter zero sau mai multe ori, non-greedy.
+- `>`: Căutăm caracterul „>”.
+- `g`: Căutare globală.
+- `i`: Căutare nesensibilă la majuscule și minuscule.
